@@ -2,6 +2,7 @@
 <html>
 <head>
 	 <meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<title> Qui est le champion?</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
@@ -10,55 +11,117 @@
 		body {
 			background-color: #2F4F4F;
 			font-family: 'Roboto';
-			font-size:1.2em;
+			font-size:16px;
 			color: white;
 
 		}
 
 		h1 {
-			font-size: 5em;
+			font-size: 200%;
 			text-align: center;
 		}
 
 		h2 {
 			text-align: center;
+			font-size: 155%;
+		}
+
+		button {
+			font-size:120%;
 		}
 
 		.btn {
 			font-size:2em;
+			white-space: normal;
 		}
 
 		.row {
-			padding-top: 30px;
+			padding-top: 3%;
 		}
 
-	</style>
+		.invis {
+			background: transparent;
+    		border: none !important;
+    		font-size:0;
+		}
 
+		div.responsive-buttons {
+			padding-top: 3%;
+		} 
+
+		/* Small devices (tablets, 768px and up) */
+		@media (min-width: 768px) {
+			h1 {
+			font-size: 300%;
+			text-align: center;
+			}
+
+
+			h2 {
+				text-align: center;
+				font-size: 200%;
+			}
+
+			button {
+			font-size:150%;
+			}
+
+			.btn {
+				white-space: nowrap;
+			}
+
+		}
+
+		/* Medium devices (desktops, 992px and up) */
+		@media (min-width: 992px) {
+
+			h1 {
+			font-size: 250%;
+			text-align: center;
+			}
+
+			h2 {
+				text-align: center;
+				font-size: 200%;
+			}
+
+			button {
+			font-size:100%;
+			}
+
+
+
+		div.responsive-buttons {
+			padding-top: 0%;
+		} 
+
+		}
+
+	</style>	
+
+</head>
+<body>
 	<div class="container-fluid">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12"> <h1> Qui est le roi de tous les jeux de Go? </h1></div>
 			</div>
 			<div class="row">
-				<div class="col-sm-1"></div>
+				<div class="col-hidden-sm col-hidden-xs col-md-1"></div>
 				<form method="POST" name="champion">
-					<div class="col-sm-5">
-						<button class="middle btn btn-large btn-primary centered" name="champion" value="Jan-Philippe" onclick="this.form.submit()">JP est le roi du GO du monde</button>
+					<div class="col-md-5 col-sm-12 col-xs-12 text-center responsive-buttons">
+						<button class="btn btn-large btn-primary" name="champion" value="Jan-Philippe" onclick="this.form.submit()"> JP est le roi du GO du monde</button>
 					</div>
-					<div class="col-sm-5">
-						<button class="middle btn btn-large btn-primary centered" name="champion" value="François" onclick="this.form.submit()">François pète JP comme un noob</button>
+					<div class="col-md-5 col-sm-12 col-xs-12 text-center responsive-buttons">
+						<button class="btn btn-large btn-primary" name="champion" value="François" onclick="this.form.submit()">François pète JP comme un noob</button>
 					</div>
 				</form>
-				<div class="col-sm-1">
+				<div class="col-hidden-sm col-hidden-xs col-md-1">
 			</div>
 		</div>
 		<div class="row">
-			<h2> Le joeur victorieux est actuellement {{name}}</h2>
+			<h2> Le joueur victorieux est actuellement {{name}}</h2>
 		</div>
-	</div>	
-
-</head>
-<body>
-
+	</div> 	
 </body>
 </html>
