@@ -3,10 +3,11 @@ import os
 from flask import Flask, render_template, redirect
 from flask import flash
 from flask import request
+from flask import session
 from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import SignupForm
+from forms import SignupForm, LoginForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -14,6 +15,15 @@ db = SQLAlchemy(app)
 
 # This has to be after db creation for alembic to work properly
 import models
+
+CURRENT_USER_ID = 'current_user'
+
+
+@app.before_request
+def before_request():
+    if CURRENT_USER_ID not in session and request.endpoint not in ['login', 'signup']:
+        flash('You need to login first')
+        return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -24,6 +34,13 @@ def root():
 @app.route('/users')
 def users():
     return list_table(models.User)
+
+
+@app.route('/user/<int:user_id>')
+def user_profile(user_id):
+    user = models.User.query.get(user_id)
+    html = "<div>{}</div><div>{}</div>".format(user.username, user.email)
+    return html
 
 
 @app.route('/players')
@@ -58,6 +75,30 @@ def signup():
         flash('Thanks for registering')
         return redirect(url_for('users'))
     return render_template('signup.html', form=form, title='Sign up')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if CURRENT_USER_ID in session:
+        user_id = session[CURRENT_USER_ID]
+        app.logger.debug('User with id {} found'.format(user_id))
+        return redirect(url_for('user_profile', user_id=user_id))
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = models.User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            flash('Log in successful')
+            session[CURRENT_USER_ID] = user.id
+            return redirect(url_for('user_profile', user_id=user.id))
+        else:
+            flash('Bad username or password')
+    return render_template('login.html', form=form, title='Login')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('current_user')
+    return redirect(url_for('login'))
 
 
 @app.route("/go", methods=['GET', 'POST'])

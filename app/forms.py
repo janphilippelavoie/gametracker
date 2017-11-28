@@ -10,3 +10,8 @@ class SignupForm(Form):
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = PasswordField('Confirm Password')
+
+
+class LoginForm(Form):
+    email = StringField('Email')
+    password = StringField('Password')
