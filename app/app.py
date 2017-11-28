@@ -1,9 +1,12 @@
 import os
 
 from flask import Flask, render_template, redirect
+from flask import flash
 from flask import request
 from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
+
+from forms import SignupForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -16,6 +19,11 @@ import models
 @app.route('/')
 def root():
     return redirect(url_for(go.__name__))
+
+
+@app.route('/users')
+def users():
+    return list_table(models.User)
 
 
 @app.route('/players')
@@ -36,6 +44,20 @@ def config():
         config += "{}: {}".format(key, value)
         config += "</div>"
     return config
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignupForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = models.User(form.username.data, form.email.data,
+                           form.password.data)
+        app.logger.debug("New user: {}".format(user))
+        models.db.session.add(user)
+        models.db.session.commit()
+        flash('Thanks for registering')
+        return redirect(url_for('users'))
+    return render_template('signup.html', form=form, title='Sign up')
 
 
 @app.route("/go", methods=['GET', 'POST'])

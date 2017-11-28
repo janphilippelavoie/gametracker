@@ -1,4 +1,21 @@
+from bcrypt import hashpw, gensalt
+
 from app import db
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String())
+    email = db.Column(db.String(), unique=True)
+    password = db.Column(db.String())
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email.lower()
+        self.password = hashpw(password.encode('UTF-8'), gensalt())
+
+    def __repr__(self):
+        return "username: {}\nemail: {}\n".format(self.username, self.email)
 
 
 class Player(db.Model):
