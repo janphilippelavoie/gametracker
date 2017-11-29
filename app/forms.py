@@ -15,3 +15,7 @@ class SignupForm(Form):
 class LoginForm(Form):
     email = StringField('Email')
     password = PasswordField('Password')
+
+
+class AddGameForm(Form):
+    game_name = StringField('Name', [validators.DataRequired()])

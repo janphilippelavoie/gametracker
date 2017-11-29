@@ -7,7 +7,7 @@ from flask import session
 from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm, AddGameForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -46,18 +46,26 @@ def users():
 @app.route('/user/<int:user_id>')
 def user_profile(user_id):
     user = models.User.query.get(user_id)
-    html = "<div>{}</div><div>{}</div>".format(user.username, user.email)
-    return html
+    return render_template('user.html', user=user)
 
 
 @app.route('/players')
-def list_players():
-    return list_table(models.Player)
+def players():
+    return render_template('users.html', users=models.User.query.all())
 
 
-@app.route('/games')
-def list_games():
-    return list_table(models.Game)
+@app.route('/games', methods=['GET', 'POST'])
+def games():
+    form = AddGameForm(request.form)
+    if request.method == 'POST' and form.validate():
+        if models.Game.query.filter_by(name=form.game_name.data.lower()).first():
+            flash('Game already exists')
+        else:
+            game = models.Game(form.game_name.data)
+            models.db.session.add(game)
+            models.db.session.commit()
+        return redirect(url_for('games'))
+    return render_template('games.html', games=models.Game.query.all(), form=form)
 
 
 @app.route('/config')
@@ -74,7 +82,7 @@ def config():
 def signup():
     form = SignupForm(request.form)
     if request.method == 'POST' and form.validate():
-        if models.User.query.filter_by(email=form.email.data).first():
+        if models.User.query.filter_by(email=form.email.data.lower()).first():
             flash('Email already exists')
             return redirect(url_for('signup'))
         user = models.User(form.username.data, form.email.data,
@@ -83,7 +91,7 @@ def signup():
         models.db.session.commit()
         app.logger.debug("New user: {}".format(user))
         flash('Thanks for registering')
-        return redirect(url_for('users'))
+        return redirect(url_for('login'))
     return render_template('signup.html', form=form, title='Sign up')
 
 
@@ -102,6 +110,7 @@ def login():
             return redirect(url_for('user_profile', user_id=user.id))
         else:
             flash('Bad username or password')
+            return redirect(url_for('login'))
     return render_template('login.html', form=form, title='Login')
 
 

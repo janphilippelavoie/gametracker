@@ -52,7 +52,7 @@ class Game(db.Model):
     champion_id = db.Column(db.Integer, db.ForeignKey('players.id'))
 
     def __init__(self, name, champion_id=None):
-        self.name = name
+        self.name = name.lower()
         self.champion_id = champion_id
 
     def __repr__(self):

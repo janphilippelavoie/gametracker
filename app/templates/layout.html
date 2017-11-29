@@ -5,6 +5,8 @@
 <div class=page>
 	<div class=navbar>
 		<a href="{{ url_for('login') }}">HOME</a>
+		<a href="{{ url_for('games') }}">GAMES</a>
+		<a href="{{ url_for('players') }}">PLAYERS</a>
 		{% if session.current_user %}
 			<a href="{{ url_for('logout') }}">LOGOUT</a>
 		{% endif %}

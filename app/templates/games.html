@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Games</h2>
+    <table>
+      <tr>
+        <th>Game</th>
+        <th>Champion</th>
+      </tr>
+      {% for game in games %}
+        <tr>
+          <td>{{ game.name }}</td>
+          <td>{{ game.champion_ip }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% from "formhelpers.html" import render_field %}
+    <form method=post>
+      <dl>
+        {{ render_field(form.game_name) }}
+      </dl>
+      <p><input type=submit>
+    </form>
+
+
+{% endblock %}
