@@ -1,14 +1,12 @@
-{% extends "layout.html" %}
-{% block body %}
-  <h2>Sign up</h2>
+{% extends 'login_layout.html' %}
 {% from "formhelpers.html" import render_field %}
-  <form method=post>
-    <dl>
-      {{ render_field(form.username) }}
-      {{ render_field(form.email) }}
-      {{ render_field(form.password) }}
-      {{ render_field(form.confirm) }}
-    </dl>
-    <p><input type=submit value=Register>
-  </form>
+{% block form %}
+    <form class="register-form", method="POST">
+      {{ render_field(form.username, placeholder="Choose a username") }}
+      {{ render_field(form.email, placeholder="Enter your email address") }}
+      {{ render_field(form.password, placeholder="Choose a password") }}
+      {{ render_field(form.confirm, placeholder="Confirm your password") }}
+      <button>create</button>
+      <p class="message">Already registered? <a href={{ url_for('login') }}>Sign In</a></p>
+    </form>
 {% endblock %}

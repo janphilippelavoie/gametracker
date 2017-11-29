@@ -21,7 +21,7 @@ CURRENT_USER_ID = 'current_user'
 
 @app.before_request
 def before_request():
-    if CURRENT_USER_ID not in session and request.endpoint not in ['login', 'signup']:
+    if CURRENT_USER_ID not in session and request.endpoint not in ['login', 'signup', 'static']:
         flash('You need to login first')
         return redirect(url_for('login'))
 
@@ -103,6 +103,7 @@ def login():
         return redirect(url_for('user_profile', user_id=user_id))
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
+        app.logger.debug("login form validated")
         user = models.User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             flash('Log in successful')

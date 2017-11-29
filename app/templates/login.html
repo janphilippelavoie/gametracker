@@ -1,14 +1,10 @@
-{% extends "layout.html" %}
-{% set title='Login' %}
-{% block body %}
-  <h2>{{ title}} </h2>
+{% extends "login_layout.html" %}
 {% from "formhelpers.html" import render_field %}
-  <form method=post>
-    <dl>
-      {{ render_field(form.email) }}
-      {{ render_field(form.password) }}
-    </dl>
-    <p><input type=submit value=Login>
-  </form>
-  <a href="{{url_for('signup')}}">Not registered?</a>
+{% block form %}
+    <form class="login-form" method="POST">
+      {{ render_field(form.email, placeholder='Email address') }}
+      {{ render_field(form.password, placeholder='Password')}}
+      <button type=submit>login</button>
+      <p class="message">Not registered? <a href={{ url_for('signup') }}>Create an account</a></p>
+    </form>
 {% endblock %}

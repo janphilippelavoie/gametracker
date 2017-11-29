@@ -1,19 +1,41 @@
 <!doctype html>
+<head>
 <title>{{ title }}</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<!--title header and navigation bar html-->
-<div class=page>
-	<div class=navbar>
-		<a href="{{ url_for('login') }}">HOME</a>
-		<a href="{{ url_for('games') }}">GAMES</a>
-		<a href="{{ url_for('players') }}">PLAYERS</a>
-		{% if session.current_user %}
-			<a href="{{ url_for('logout') }}">LOGOUT</a>
-		{% endif %}
+<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"> 
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mainstyle_gt.css') }}">
+</head>
+<body>
+	<div class="row nav-back">
+		<div class="col-sm-1"></div>
+		<nav class="navbar navbar-light col-sm-10 ">
+			<div class="container-fluid">	
+	      		<ul class="nav navbar-nav">
+					<li><a class="navbar-btn" href="{{ url_for('login') }}">HOME</a></li>
+					<li><a class="navbar-btn" href="{{ url_for('games') }}">GAMES</a></li>
+					<li><a class="navbar-btn" href="{{ url_for('players') }}">PLAYERS</a></li>
+					{% if session.current_user %}
+					<li><a class="navbar-btn" href="{{ url_for('logout') }}">LOGOUT</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
 	</div>
-  <h1>Games Tracker</h1>
-  {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
+<div class="container-fluid">
+	<div class="container">
+	  	{% for message in get_flashed_messages() %}
+	  	<div class="row">
+	  		<div class="col-sm-12">
+	    		<div class="flash">{{ message }}</div>
+	    	</div>
+	  	</div>
+	 </div>
 </div>
+	  {% endfor %}
+<div class="container-fluid">
+	  {% block body %}{% endblock %}
+</div>
+</body>

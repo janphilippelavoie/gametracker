@@ -1,0 +1,111 @@
+
+		body {
+			background: #2f4f4f; /* fallback for old browsers */
+			 background: -webkit-linear-gradient(right, #2f4f4f, #4c7f7f);
+			 background: -moz-linear-gradient(right, #2f4f4f, #4c7f7f);
+			 background: -o-linear-gradient(right, #2f4f4f, #4c7f7f);
+			 background: linear-gradient(to left, #2f4f4f, #4c7f7f);
+			font-family: 'Roboto';
+			font-size:16px;
+			color: white;
+
+		}
+
+
+		h1 {
+			font-size: 200%;
+			text-align: center;
+		}
+
+		h2 {
+			text-align: center;
+			font-size: 155%;
+		}
+
+		button {
+			font-size:120%;
+		}
+
+		.navbar-brand {
+			max-height:50px;
+		}
+
+		.nav-back {
+			background-color: #725858;
+			padding: 0px !important;
+			border-bottom: 1px solid black;
+
+		}
+
+		.navbar {
+			margin-bottom:0px;
+		}
+
+		.navbar-btn {
+			color:white;
+		}
+
+		.btn {
+			font-size:2em;
+			white-space: normal;
+		}
+
+		.row {
+			padding-top: 3%;
+		}
+
+		.invis {
+			background: transparent;
+    		border: none !important;
+    		font-size:0;
+		}
+
+		.black-text {
+			color:black;
+		}
+
+		div.responsive-buttons {
+			padding-top: 3%;
+		} 
+		/* Small devices (tablets, 768px and up) */
+		@media (min-width: 768px) {
+			h1 {
+			font-size: 300%;
+			text-align: center;
+			}
+
+			h2 {
+				text-align: center;
+				font-size: 200%;
+			}
+
+			button {
+			font-size:150%;
+			}
+
+			.btn {
+				white-space: nowrap;
+			}
+		}
+		/* Medium devices (desktops, 992px and up) */
+		@media (min-width: 992px) {
+
+			h1 {
+			font-size: 300%;
+			text-align: center;
+			}
+
+			h2 {
+				text-align: center;
+				font-size: 200%;
+			}
+
+			button {
+			font-size:100%;
+			}
+
+			div.responsive-buttons {
+				padding-top: 0%;
+			} 
+
+		}
