@@ -26,6 +26,13 @@ def before_request():
         return redirect(url_for('login'))
 
 
+@app.teardown_request
+def teardown_request(exception):
+    if exception:
+        app.logger.error("An error occured, rolling back session as a precaution: {}".format(exception))
+        models.db.session.rollback()
+
+
 @app.route('/')
 def root():
     return redirect(url_for(go.__name__))
@@ -67,11 +74,14 @@ def config():
 def signup():
     form = SignupForm(request.form)
     if request.method == 'POST' and form.validate():
+        if models.User.query.filter_by(email=form.email.data).first():
+            flash('Email already exists')
+            return redirect(url_for('signup'))
         user = models.User(form.username.data, form.email.data,
                            form.password.data)
-        app.logger.debug("New user: {}".format(user))
         models.db.session.add(user)
         models.db.session.commit()
+        app.logger.debug("New user: {}".format(user))
         flash('Thanks for registering')
         return redirect(url_for('users'))
     return render_template('signup.html', form=form, title='Sign up')

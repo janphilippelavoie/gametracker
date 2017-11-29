@@ -14,4 +14,4 @@ class SignupForm(Form):
 
 class LoginForm(Form):
     email = StringField('Email')
-    password = StringField('Password')
+    password = PasswordField('Password')
