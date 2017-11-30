@@ -50,6 +50,7 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     champion_id = db.Column(db.Integer, db.ForeignKey('players.id'))
+    matches = db.relationship('Match', backref='game', lazy=True)
 
     def __init__(self, name, champion_id=None):
         self.name = name.lower()
@@ -57,3 +58,25 @@ class Game(db.Model):
 
     def __repr__(self):
         return 'id {}, name {}, champion: {}'.format(self.id, self.name, self.champion_id)
+
+
+class Match(db.Model):
+    __tablename__ = 'matches'
+
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    result = db.Column(db.String())
+    participants = db.relationship('User', secondary='played', backref='matches')
+
+    def __init__(self, game_id):
+        self.game_id = game_id
+
+    def __repr__(self):
+        return 'id {}, game_id {}'.format(self.id, self.game_id)
+
+
+played = db.Table(
+    'played',
+    db.Column('match_id', db.Integer, db.ForeignKey('matches.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+)

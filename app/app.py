@@ -35,7 +35,7 @@ def teardown_request(exception):
 
 @app.route('/')
 def root():
-    return redirect(url_for(go.__name__))
+    return redirect(url_for('login'))
 
 
 @app.route('/users')
